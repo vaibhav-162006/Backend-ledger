@@ -1,0 +1,38 @@
+{
+  "name": "backend-ledger",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "npx nodemon server.js",
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cookie-parser": "^1.4.7",
+    "dotenv": "^18.0.3",
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "mongoose": "^9.10.1",
+    "mongosh": "^2.12.0",
+    "moongoose": "^0.0.1",
+    "nodemailer": "^10.0.10"
+  },
+  "allowScripts": {
+    "mongosh@2.12.0": true,
+    "@mongodb-js/native-machine-id": true,
+    "cpu-features": true,
+    "glibc-version": true,
+    "kerberos": true,
+    "macos-export-certificate-and-key": true,
+    "mongodb-client-encryption": true,
+    "mongodb-crypt-library-version": true,
+    "os-dns-native": true,
+    "ssh2": true
+  }
+}

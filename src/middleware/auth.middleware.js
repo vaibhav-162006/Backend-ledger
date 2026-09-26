@@ -1,0 +1,56 @@
+const UserModel = require("../models/user.model")
+const jwt = require("jsonwebtoken")
+const emailService = require("../services/email.service")
+async function middlewareReq(req,res,next){
+    const token = req.cookies?.token || req.headers.authorization?.split(" ")[1];
+    if(!token){
+        return res.status(401).json({
+            message: "Unauthorized access , token is missing "
+        })
+    }
+    try{
+        const decoded = jwt.verify(token , process.env.JWT_SECRET)
+        const user = await UserModel.findById(decoded.userId)
+        if(!user){
+            return res.status(401).json({ message: "User no longer exists" })
+        }
+        req.user = user
+        return next();
+    }catch(err){
+        return res.status(401).json({
+            message: "Unauthorized access token "
+        }) 
+    }
+}
+async function authsystemUserMiddleware(req,res,next){
+    const token = req.cookies?.token || req.headers.authorization?.split(" ")[ 1 ]
+    if(!token){
+      return  res.status(401).json({
+            message: "Unauthorized Access"
+        })
+    }
+    try{
+        const decoded =  jwt.verify(token , process.env.JWT_SECRET)
+
+        const user =  await UserModel.findById(decoded.userId).select("+systemUser")
+        if(!user){
+            return res.status(401).json({ message: "User no longer exists" })
+        }
+        if(!user.systemUser){
+            return res.status(403).json({
+                message: "Forbidden Acess"
+            })
+        }
+        req.user = user
+        next();
+    }
+    catch(err){
+        return res.status(401).json({
+            message: "Unauthorized Acess or token is expired"
+        })
+    }
+}
+module.exports = {
+middlewareReq,
+authsystemUserMiddleware
+}
